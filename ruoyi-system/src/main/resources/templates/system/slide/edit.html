@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改幻灯片列')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-slide-edit" th:object="${ossSlide}">
+            <input name="slideId" th:field="*{slideId}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">幻灯片地址：</label>
+                <div class="col-sm-8">
+                    <textarea name="slideUrl" class="form-control">[[*{slideUrl}]]</textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/slide";
+        $("#form-slide-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-slide-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

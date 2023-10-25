@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OssMovieinfoMapper">
+    
+    <resultMap type="OssMovieinfo" id="OssMovieinfoResult">
+        <result property="movieId"    column="movie_id"    />
+        <result property="movieName"    column="movie_name"    />
+        <result property="movieRemark"    column="movie_remark"    />
+        <result property="movieActor"    column="movie_actor"    />
+        <result property="movieDirector"    column="movie_director"    />
+        <result property="movieCover"    column="movie_cover"    />
+        <result property="movieType1"    column="movie_type1"    />
+        <result property="movieScore"    column="movie_score"    />
+        <result property="movieArea"    column="movie_area"    />
+        <result property="movieType2"    column="movie_type2"    />
+        <result property="movieLan"    column="movie_lan"    />
+        <result property="movieShowtime"    column="movie_showtime"    />
+        <result property="movieUpdatetime"    column="movie_updatetime"    />
+        <result property="movieContent"    column="movie_content"    />
+        <result property="moviePlaylist1"    column="movie_playlist1"    />
+        <result property="moviePlaylist2"    column="movie_playlist2"    />
+        <result property="movieBak1"    column="movie_bak1"    />
+        <result property="movieBak2"    column="movie_bak2"    />
+        <result property="movieBak3"    column="movie_bak3"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectOssMovieinfoVo">
+        select movie_id, movie_name, movie_remark, movie_actor, movie_director, movie_cover, movie_type1, movie_score, movie_area, movie_type2, movie_lan, movie_showtime, movie_updatetime, movie_content, movie_playlist1, movie_playlist2, movie_bak1, movie_bak2, movie_bak3, create_time, create_by, update_by, update_time from oss_movieinfo
+    </sql>
+
+    <select id="selectOssMovieinfoList" parameterType="OssMovieinfo" resultMap="OssMovieinfoResult">
+        <include refid="selectOssMovieinfoVo"/>
+        <where>  
+            <if test="movieName != null  and movieName != ''"> and movie_name  like concat('%', #{movieName}, '%')</if>
+            <if test="movieActor != null  and movieActor != ''"> and movie_actor = #{movieActor}</if>
+            <if test="movieDirector != null  and movieDirector != ''"> and movie_director = #{movieDirector}</if>
+            <if test="movieType1 != null and movieType1 != ''"> and movie_type1 = #{movieType1}</if>
+            <if test="movieType2 != null and movieType2 != ''"> and movie_type2 = #{movieType2}</if>
+            <if test="movieLan != null  and movieLan != ''"> and movie_lan = #{movieLan}</if>
+            <if test="movieBak1 != null  and movieBak1 != ''"> and movie_bak1 = #{movieBak1}</if>
+            <if test="movieBak2 != null  and movieBak2 != ''"> and movie_bak2 = #{movieBak2}</if>
+            <if test="movieBak3 != null  and movieBak3 != ''"> and movie_bak3 = #{movieBak3}</if>
+        </where>
+    </select>
+    
+    <select id="selectOssMovieinfoByMovieId" parameterType="Long" resultMap="OssMovieinfoResult">
+        <include refid="selectOssMovieinfoVo"/>
+        where movie_id = #{movieId}
+    </select>
+
+    <select id="selectOssMovieinfoByMovieType1" parameterType="Long" resultMap="OssMovieinfoResult">
+        <include refid="selectOssMovieinfoVo"/>
+        where movie_type1 = #{movieType1}
+    </select>
+    <select id="selectOssMovieinfoByMovieType2" parameterType="Long" resultMap="OssMovieinfoResult">
+        <include refid="selectOssMovieinfoVo"/>
+        where movie_type2 = #{movieType2}
+    </select>
+    <select id="selectOssMovieinfoByMovieShowtime" parameterType="String" resultMap="OssMovieinfoResult">
+        <include refid="selectOssMovieinfoVo"/>
+        where movie_showtime = #{movieShowtime}
+    </select>
+    <select id="selectOssMovieinfoByMovieBak1" parameterType="String" resultMap="OssMovieinfoResult">
+        <include refid="selectOssMovieinfoVo"/>
+        where movie_bak1 = #{movieBak1}
+    </select>
+
+    <insert id="insertOssMovieinfo" parameterType="OssMovieinfo" useGeneratedKeys="true" keyProperty="movieId">
+        insert into oss_movieinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="movieName != null">movie_name,</if>
+            <if test="movieRemark != null">movie_remark,</if>
+            <if test="movieActor != null">movie_actor,</if>
+            <if test="movieDirector != null">movie_director,</if>
+            <if test="movieCover != null">movie_cover,</if>
+            <if test="movieType1 != null">movie_type1,</if>
+            <if test="movieScore != null">movie_score,</if>
+            <if test="movieArea != null">movie_area,</if>
+            <if test="movieType2 != null">movie_type2,</if>
+            <if test="movieLan != null">movie_lan,</if>
+            <if test="movieShowtime != null">movie_showtime,</if>
+            <if test="movieUpdatetime != null">movie_updatetime,</if>
+            <if test="movieContent != null">movie_content,</if>
+            <if test="moviePlaylist1 != null">movie_playlist1,</if>
+            <if test="moviePlaylist2 != null">movie_playlist2,</if>
+            <if test="movieBak1 != null">movie_bak1,</if>
+            <if test="movieBak2 != null">movie_bak2,</if>
+            <if test="movieBak3 != null">movie_bak3,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="movieName != null">#{movieName},</if>
+            <if test="movieRemark != null">#{movieRemark},</if>
+            <if test="movieActor != null">#{movieActor},</if>
+            <if test="movieDirector != null">#{movieDirector},</if>
+            <if test="movieCover != null">#{movieCover},</if>
+            <if test="movieType1 != null">#{movieType1},</if>
+            <if test="movieScore != null">#{movieScore},</if>
+            <if test="movieArea != null">#{movieArea},</if>
+            <if test="movieType2 != null">#{movieType2},</if>
+            <if test="movieLan != null">#{movieLan},</if>
+            <if test="movieShowtime != null">#{movieShowtime},</if>
+            <if test="movieUpdatetime != null">#{movieUpdatetime},</if>
+            <if test="movieContent != null">#{movieContent},</if>
+            <if test="moviePlaylist1 != null">#{moviePlaylist1},</if>
+            <if test="moviePlaylist2 != null">#{moviePlaylist2},</if>
+            <if test="movieBak1 != null">#{movieBak1},</if>
+            <if test="movieBak2 != null">#{movieBak2},</if>
+            <if test="movieBak3 != null">#{movieBak3},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOssMovieinfo" parameterType="OssMovieinfo">
+        update oss_movieinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="movieName != null">movie_name = #{movieName},</if>
+            <if test="movieRemark != null">movie_remark = #{movieRemark},</if>
+            <if test="movieActor != null">movie_actor = #{movieActor},</if>
+            <if test="movieDirector != null">movie_director = #{movieDirector},</if>
+            <if test="movieCover != null">movie_cover = #{movieCover},</if>
+            <if test="movieType1 != null">movie_type1 = #{movieType1},</if>
+            <if test="movieScore != null">movie_score = #{movieScore},</if>
+            <if test="movieArea != null">movie_area = #{movieArea},</if>
+            <if test="movieType2 != null">movie_type2 = #{movieType2},</if>
+            <if test="movieLan != null">movie_lan = #{movieLan},</if>
+            <if test="movieShowtime != null">movie_showtime = #{movieShowtime},</if>
+            <if test="movieUpdatetime != null">movie_updatetime = #{movieUpdatetime},</if>
+            <if test="movieContent != null">movie_content = #{movieContent},</if>
+            <if test="moviePlaylist1 != null">movie_playlist1 = #{moviePlaylist1},</if>
+            <if test="moviePlaylist2 != null">movie_playlist2 = #{moviePlaylist2},</if>
+            <if test="movieBak1 != null">movie_bak1 = #{movieBak1},</if>
+            <if test="movieBak2 != null">movie_bak2 = #{movieBak2},</if>
+            <if test="movieBak3 != null">movie_bak3 = #{movieBak3},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where movie_id = #{movieId}
+    </update>
+
+    <delete id="deleteOssMovieinfoByMovieId" parameterType="Long">
+        delete from oss_movieinfo where movie_id = #{movieId}
+    </delete>
+
+    <delete id="deleteOssMovieinfoByMovieIds" parameterType="String">
+        delete from oss_movieinfo where movie_id in 
+        <foreach item="movieId" collection="array" open="(" separator="," close=")">
+            #{movieId}
+        </foreach>
+    </delete>
+
+</mapper>

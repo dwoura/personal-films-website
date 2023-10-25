@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OssSlideMapper">
+    
+    <resultMap type="OssSlide" id="OssSlideResult">
+        <result property="slideId"    column="slide_id"    />
+        <result property="slideUrl"    column="slide_url"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectOssSlideVo">
+        select slide_id, slide_url, create_by, create_time, update_by, update_time from oss_slide
+    </sql>
+
+    <select id="selectOssSlideList" parameterType="OssSlide" resultMap="OssSlideResult">
+        <include refid="selectOssSlideVo"/>
+        <where>  
+            <if test="slideUrl != null  and slideUrl != ''"> and slide_url = #{slideUrl}</if>
+        </where>
+    </select>
+    
+    <select id="selectOssSlideBySlideId" parameterType="Long" resultMap="OssSlideResult">
+        <include refid="selectOssSlideVo"/>
+        where slide_id = #{slideId}
+    </select>
+        
+    <insert id="insertOssSlide" parameterType="OssSlide" useGeneratedKeys="true" keyProperty="slideId">
+        insert into oss_slide
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="slideUrl != null">slide_url,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="slideUrl != null">#{slideUrl},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOssSlide" parameterType="OssSlide">
+        update oss_slide
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="slideUrl != null">slide_url = #{slideUrl},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where slide_id = #{slideId}
+    </update>
+
+    <delete id="deleteOssSlideBySlideId" parameterType="Long">
+        delete from oss_slide where slide_id = #{slideId}
+    </delete>
+
+    <delete id="deleteOssSlideBySlideIds" parameterType="String">
+        delete from oss_slide where slide_id in 
+        <foreach item="slideId" collection="array" open="(" separator="," close=")">
+            #{slideId}
+        </foreach>
+    </delete>
+
+</mapper>

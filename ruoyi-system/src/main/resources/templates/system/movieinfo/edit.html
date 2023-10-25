@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改电影资源管理')" />
+    <th:block th:include="include :: summernote-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-movieinfo-edit" th:object="${ossMovieinfo}">
+            <input name="movieId" th:field="*{movieId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电影名称：</label>
+                <div class="col-sm-8">
+                    <input name="movieName" th:field="*{movieName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电影备注：</label>
+                <div class="col-sm-8">
+                    <input name="movieRemark" th:field="*{movieRemark}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">电影主演：</label>
+                <div class="col-sm-8">
+                    <textarea name="movieActor" class="form-control">[[*{movieActor}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电影导演：</label>
+                <div class="col-sm-8">
+                    <input name="movieDirector" th:field="*{movieDirector}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">电影海报：</label>
+                <div class="col-sm-8">
+                    <textarea name="movieCover" class="form-control">[[*{movieCover}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电影一级分类：</label>
+                <div class="col-sm-8">
+                    <input name="movieType1" th:field="*{movieType1}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电影评分：</label>
+                <div class="col-sm-8">
+                    <input name="movieScore" th:field="*{movieScore}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电影发行地区：</label>
+                <div class="col-sm-8">
+                    <input name="movieArea" th:field="*{movieArea}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电影二级分类：</label>
+                <div class="col-sm-8">
+                    <input name="movieType2" th:field="*{movieType2}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电影语言：</label>
+                <div class="col-sm-8">
+                    <input name="movieLan" th:field="*{movieLan}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电影上映时间：</label>
+                <div class="col-sm-8">
+                    <input name="movieShowtime" th:field="*{movieShowtime}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电影更新时间：</label>
+                <div class="col-sm-8">
+                    <input name="movieUpdatetime" th:field="*{movieUpdatetime}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电影简介：</label>
+                <div class="col-sm-8">
+                    <input type="hidden" class="form-control" th:field="*{movieContent}">
+                    <div class="summernote" id="movieContent"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">电影播放列表1：</label>
+                <div class="col-sm-8">
+                    <textarea name="moviePlaylist1" class="form-control">[[*{moviePlaylist1}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">电影播放列表2：</label>
+                <div class="col-sm-8">
+                    <textarea name="moviePlaylist2" class="form-control">[[*{moviePlaylist2}]]</textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: summernote-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/movieinfo";
+        $("#form-movieinfo-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-movieinfo-edit').serialize());
+            }
+        }
+
+        $(function() {
+            $('.summernote').each(function(i) {
+                $('#' + this.id).summernote({
+                    lang: 'zh-CN',
+                    dialogsInBody: true,
+                    callbacks: {
+                        onChange: function(contents, $edittable) {
+                            $("input[name='" + this.id + "']").val(contents);
+                        },
+                        onImageUpload: function(files) {
+                            var obj = this;
+                            var data = new FormData();
+                            data.append("file", files[0]);
+                            $.ajax({
+                                type: "post",
+                                url: ctx + "common/upload",
+                                data: data,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                dataType: 'json',
+                                success: function(result) {
+                                    if (result.code == web_status.SUCCESS) {
+                                        $('#' + obj.id).summernote('insertImage', result.url);
+                                    } else {
+                                        $.modal.alertError(result.msg);
+                                    }
+                                },
+                                error: function(error) {
+                                    $.modal.alertWarning("图片上传失败。");
+                                }
+                            });
+                        }
+                    }
+                });
+                var content = $("input[name='" + this.id + "']").val();
+                $('#' + this.id).summernote('code', content);
+            })
+        });
+    </script>
+</body>
+</html>

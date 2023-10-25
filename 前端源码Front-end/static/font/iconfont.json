@@ -1,0 +1,44 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1841668",
+      "name": "动漫",
+      "font_class": "dongman",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "5325309",
+      "name": "电影",
+      "font_class": "dianying",
+      "unicode": "e67f",
+      "unicode_decimal": 59007
+    },
+    {
+      "icon_id": "10905594",
+      "name": "火爆",
+      "font_class": "huobao",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "17449652",
+      "name": "电视机",
+      "font_class": "dianshijuA",
+      "unicode": "ec92",
+      "unicode_decimal": 60562
+    },
+    {
+      "icon_id": "22730292",
+      "name": "娱乐",
+      "font_class": "a-tupianyihuifu-30",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    }
+  ]
+}
